@@ -47,3 +47,21 @@ def get_all_users(
     current_user: models.User = Depends(auth.get_admin_user)
 ):
     return db.query(models.User).all()
+
+@router.delete("/{user_id}")
+def delete_user(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_admin_user)
+):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.id == current_user.id:
+        raise HTTPException(status_code=400, detail="Cannot delete yourself!")
+    
+    # User tasks kuda delete cheyyi
+    db.query(models.Task).filter(models.Task.owner_id == user_id).delete()
+    db.delete(user)
+    db.commit()
+    return {"message": f"User {user.username} deleted successfully"}

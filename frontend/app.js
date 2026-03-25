@@ -106,8 +106,32 @@ async function loadAllUsers() {
                     Role: <strong>${u.role}</strong>
                 </p>
             </div>
+            <div class="task-actions">
+                ${u.role !== 'admin' ? `
+                <button class="delete-btn" onclick="deleteUser(${u.id}, '${u.username}')">
+                    🗑️ Delete
+                </button>` : '<span style="color:#9ca3af;">Admin</span>'}
+            </div>
         </div>
     `).join('');
+}
+
+async function deleteUser(id, username) {
+    if (!confirm(`Are you sure you want to delete "${username}"?`)) return;
+    
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API}/users/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    
+    const data = await res.json();
+    if (res.ok) {
+        alert(`✅ ${data.message}`);
+        loadAllUsers();
+    } else {
+        alert(`❌ ${data.detail}`);
+    }
 }
 
 async function loadTasks() {
