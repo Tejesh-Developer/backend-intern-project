@@ -43,6 +43,7 @@ cd backend-intern-project
 cd backend
 python -m venv venv
 venv\Scripts\activate
+pip install -r requirements.txt
 pip install fastapi uvicorn sqlalchemy python-jose passlib bcrypt python-multipart
 ```
 
