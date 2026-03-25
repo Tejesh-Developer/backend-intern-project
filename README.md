@@ -40,11 +40,11 @@ cd backend-intern-project
 
 ### 2. Setup Backend
 ```
-cd backend
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 pip install fastapi uvicorn sqlalchemy python-jose passlib bcrypt python-multipart
+cd backend
 ```
 
 ### 3. Run Backend Server
@@ -54,6 +54,7 @@ uvicorn main:app --reload
 Server runs at: http://127.0.0.1:8000
 
 ### 4. Run Frontend
+Run Another Terminal
 ```
 cd frontend
 python -m http.server 3000
