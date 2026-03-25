@@ -104,3 +104,8 @@ Swagger UI available at: http://127.0.0.1:8000/docs
 3. Login with credentials
 4. Add, complete, and delete tasks
 5. Test APIs directly at http://127.0.0.1:8000/docs
+
+## Admin Crediantials
+
+1. Gmail: admin@gmail.com
+2. password: admin123
