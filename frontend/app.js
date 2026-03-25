@@ -78,9 +78,36 @@ async function loadDashboard() {
     });
     if (!userRes.ok) { logout(); return; }
     const user = await userRes.json();
-    document.getElementById('welcome-msg').textContent = `Welcome, ${user.username}!`;
+    document.getElementById('welcome-msg').textContent = `Welcome, ${user.username}! (${user.role})`;
+
+    // Admin ైతే admin panel show cheyyi
+    if (user.role === 'admin') {
+        document.getElementById('admin-panel').style.display = 'block';
+        loadAllUsers();
+    }
 
     loadTasks();
+}
+
+async function loadAllUsers() {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API}/users/all`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const users = await res.json();
+    const container = document.getElementById('users-container');
+
+    container.innerHTML = users.map(u => `
+        <div class="task-card">
+            <div>
+                <h3>👤 ${u.username}</h3>
+                <p>📧 ${u.email}</p>
+                <p style="font-size:11px;color:#9ca3af;">
+                    Role: <strong>${u.role}</strong>
+                </p>
+            </div>
+        </div>
+    `).join('');
 }
 
 async function loadTasks() {
